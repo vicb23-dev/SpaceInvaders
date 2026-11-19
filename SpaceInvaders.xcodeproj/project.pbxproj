@@ -16,7 +16,7 @@
 		AC1F089E309CF3FE007C8FD3 /* SpaceInvadersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F089D309CF3FE007C8FD3 /* SpaceInvadersUITestsLaunchTests.swift */; };
 		AC1F08AC309CF48E007C8FD3 /* disparo.wav in Resources */ = {isa = PBXBuildFile; fileRef = AC1F08AA309CF48E007C8FD3 /* disparo.wav */; };
 		AC1F08AD309CF48E007C8FD3 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC1F08AB309CF48E007C8FD3 /* explosion.mp3 */; };
-		AC1F08AF309CF522007C8FD3 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F08AE309CF522007C8FD3 /* GameMode.swift */; };
+		AC1F08AF309CF522007C8FD3 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F08AE309CF522007C8FD3 /* GameModel.swift */; };
 		AC1F08B1309CF582007C8FD3 /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F08B0309CF582007C8FD3 /* SoundPlayer.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,7 @@
 		AC1F089D309CF3FE007C8FD3 /* SpaceInvadersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInvadersUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AC1F08AA309CF48E007C8FD3 /* disparo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = disparo.wav; sourceTree = "<group>"; };
 		AC1F08AB309CF48E007C8FD3 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
-		AC1F08AE309CF522007C8FD3 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
+		AC1F08AE309CF522007C8FD3 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		AC1F08B0309CF582007C8FD3 /* SoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,7 +107,7 @@
 				AC1F0884309CF3F8007C8FD3 /* Assets.xcassets */,
 				AC1F08AA309CF48E007C8FD3 /* disparo.wav */,
 				AC1F08AB309CF48E007C8FD3 /* explosion.mp3 */,
-				AC1F08AE309CF522007C8FD3 /* GameMode.swift */,
+				AC1F08AE309CF522007C8FD3 /* GameModel.swift */,
 				AC1F08B0309CF582007C8FD3 /* SoundPlayer.swift */,
 				AC1F0886309CF3F8007C8FD3 /* Preview Content */,
 			);
@@ -274,7 +274,7 @@
 				AC1F0883309CF3F4007C8FD3 /* ContentView.swift in Sources */,
 				AC1F0881309CF3F4007C8FD3 /* SpaceInvadersApp.swift in Sources */,
 				AC1F08B1309CF582007C8FD3 /* SoundPlayer.swift in Sources */,
-				AC1F08AF309CF522007C8FD3 /* GameMode.swift in Sources */,
+				AC1F08AF309CF522007C8FD3 /* GameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
