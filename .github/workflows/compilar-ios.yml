@@ -1,0 +1,38 @@
+name: Compilar SpaceInvaders para Appetize
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  compilar-ios-simulador:
+    runs-on: macos-15
+    steps:
+      - name: Descargar el proyecto
+        uses: actions/checkout@v4
+
+      - name: Compilar para simulador iOS (sin firma)
+        run: |
+          xcodebuild \
+            -project SpaceInvaders.xcodeproj \
+            -scheme SpaceInvaders \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/SpaceInvadersBuild" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Empaquetar el archivo .app
+        run: |
+          APP_PATH="$RUNNER_TEMP/SpaceInvadersBuild/Build/Products/Debug-iphonesimulator/SpaceInvaders.app"
+          test -d "$APP_PATH"
+          ditto -c -k --keepParent "$APP_PATH" "$RUNNER_TEMP/SpaceInvaders-simulador.zip"
+          unzip -l "$RUNNER_TEMP/SpaceInvaders-simulador.zip" | head -20
+
+      - name: Publicar ZIP para descargar
+        uses: actions/upload-artifact@v4
+        with:
+          name: Descargar-SpaceInvaders-para-Appetize
+          path: ${{ runner.temp }}/SpaceInvaders-simulador.zip
+          if-no-files-found: error
