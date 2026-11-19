@@ -98,11 +98,19 @@ final class GameModel: ObservableObject {
         }
         guard var point = bullet else { return }
         let oldY = point.y
-        point.y = 0.9*dt
-        let path = CGRect(x: point.x - 0.01,
+        point.y -= 0.9*dt
+
+        let path = CGRect(
+            x: point.x - 0.01,
+            y: min(point.y, oldY) - 0.02,
+            width: 0.02,
+            height: abs(oldY - point.y) + 0.04
+        )
+       /* let path = CGRect(x: point.x - 0.01,
                           y:point.y - 0.02,
                           width: 0.02,
-                          height: oldY - point.y + 0.04)
+                          height: oldY - point.y + 0.04)*/
+
         for i in alive.indices where alive[i]{
             let target = CGRect(x: enemyX(i) - 0.05,
                                 y:0.105,
