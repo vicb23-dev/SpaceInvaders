@@ -1,38 +1,49 @@
-name: Compilar SpaceInvaders para Appetize
+
+name: Compilar SpaceInvaders para iPhone
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  compilar-ios-simulador:
+  compilar-ios:
     runs-on: macos-15
+
     steps:
-      - name: Descargar el proyecto
+      - name: Descargar proyecto
         uses: actions/checkout@v4
 
-      - name: Compilar para simulador iOS (sin firma)
+      - name: Compilar para iPhone fisico
         run: |
           xcodebuild \
             -project SpaceInvaders.xcodeproj \
             -scheme SpaceInvaders \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -derivedDataPath "$RUNNER_TEMP/SpaceInvadersBuild" \
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Empaquetar el archivo .app
+      - name: Preparar aplicacion
         run: |
-          APP_PATH="$RUNNER_TEMP/SpaceInvadersBuild/Build/Products/Debug-iphonesimulator/SpaceInvaders.app"
-          test -d "$APP_PATH"
-          ditto -c -k --keepParent "$APP_PATH" "$RUNNER_TEMP/SpaceInvaders-simulador.zip"
-          unzip -l "$RUNNER_TEMP/SpaceInvaders-simulador.zip" | head -20
+          APP_PATH="$RUNNER_TEMP/SpaceInvadersBuild/Build/Products/Release-iphoneos/SpaceInvaders.app"
 
-      - name: Publicar ZIP para descargar
+          test -d "$APP_PATH"
+
+          mkdir -p "$RUNNER_TEMP/IPA/Payload"
+
+          cp -R "$APP_PATH" "$RUNNER_TEMP/IPA/Payload/"
+
+          cd "$RUNNER_TEMP/IPA"
+
+          zip -r "$RUNNER_TEMP/SpaceInvaders-iPhone.ipa" Payload
+
+      - name: Publicar IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Descargar-SpaceInvaders-para-Appetize
-          path: ${{ runner.temp }}/SpaceInvaders-simulador.zip
+          name: SpaceInvaders-iPhone
+          path: ${{ runner.temp }}/SpaceInvaders-iPhone.ipa
           if-no-files-found: error
