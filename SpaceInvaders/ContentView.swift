@@ -20,7 +20,6 @@ struct ContentView: View {
             Text("Score: \(game.score)")
 
             Toggle("Motion by tilt", isOn: $game.useTilt)
-                .disabled(!game.sensorAvailable)
 
             board
 

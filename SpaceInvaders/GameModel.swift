@@ -46,27 +46,36 @@ final class GameModel: ObservableObject {
         // Iniciar acelerómetro
         if motion.isAccelerometerAvailable {
             motion.accelerometerUpdateInterval = 1.0 / 60.0
-            motion.startAccelerometerUpdates()
-            sensorAvailable = motion.isAccelerometerActive
+
+            if !motion.isAccelerometerActive {
+                motion.startAccelerometerUpdates()
+            }
+
+            sensorAvailable = true
         } else {
             sensorAvailable = false
+            useTilt = false
         }
 
         // Iniciar giroscopio
         if motion.isGyroAvailable {
             motion.gyroUpdateInterval = 1.0 / 60.0
 
-            motion.startGyroUpdates(to: .main) { [weak self] data, error in
-                guard let self = self, let data = data, error == nil else {
-                    return
-                }
+            if !motion.isGyroActive {
+                motion.startGyroUpdates(to: .main) { [weak self] data, error in
+                    guard let self = self,
+                          let data = data,
+                          error == nil else {
+                        return
+                    }
 
-                Task { @MainActor in
-                    self.lastRotation = data.rotationRate
+                    Task { @MainActor in
+                        self.lastRotation = data.rotationRate
+                    }
                 }
             }
 
-            gyroAvailable = motion.isGyroActive
+            gyroAvailable = true
         } else {
             gyroAvailable = false
         }
@@ -139,7 +148,6 @@ final class GameModel: ObservableObject {
             let rotationY = lastRotation.y
             let rotationZ = lastRotation.z
 
-            // Se conservan las lecturas para el sensor.
             _ = rotationX
             _ = rotationY
             _ = rotationZ
@@ -177,4 +185,3 @@ final class GameModel: ObservableObject {
         bullet = point.y < -0.02 ? nil : point
     }
 }
-
