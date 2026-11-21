@@ -106,7 +106,7 @@ final class GameModel: ObservableObject {
 
     func reset() {
         shipX = 0.5
-        bullet = nil
+        bullet = nilgit push
         alive = Array(repeating: true, count: 5)
         score = 0
         paused = false
@@ -138,9 +138,17 @@ final class GameModel: ObservableObject {
 
         // Control de la nave con acelerómetro
         if useTilt, sensorAvailable,
-           let data = motion.accelerometerData {
-            move(to: 0.5 + CGFloat(data.acceleration.x) * 1.5)
-        }
+   let data = motion.accelerometerData {
+
+    let sensitivity: CGFloat = 0.65
+    let targetX = 0.5 + CGFloat(data.acceleration.x) * sensitivity
+
+    let smoothFactor: CGFloat = 0.08
+
+    let newX = shipX + (targetX - shipX) * smoothFactor
+
+    move(to: newX)
+}
 
         // Lectura del giroscopio
         if gyroAvailable {
