@@ -106,7 +106,7 @@ final class GameModel: ObservableObject {
 
     func reset() {
         shipX = 0.5
-        bullet = nilgit push
+        bullet = nil
         alive = Array(repeating: true, count: 5)
         score = 0
         paused = false
