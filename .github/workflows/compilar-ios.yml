@@ -1,11 +1,14 @@
 
-name: Compilar SpaceInvaders para iPhone
+name: Compilar SpaceInvaders para iPhone y Appetize
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   compilar-ios:
@@ -15,6 +18,7 @@ jobs:
       - name: Descargar proyecto
         uses: actions/checkout@v4
 
+      # COMPILAR PARA IPHONE FISICO
       - name: Compilar para iPhone fisico
         run: |
           xcodebuild \
@@ -27,7 +31,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Preparar aplicacion
+      - name: Preparar IPA
         run: |
           APP_PATH="$RUNNER_TEMP/SpaceInvadersBuild/Build/Products/Release-iphoneos/SpaceInvaders.app"
 
@@ -46,4 +50,34 @@ jobs:
         with:
           name: SpaceInvaders-iPhone
           path: ${{ runner.temp }}/SpaceInvaders-iPhone.ipa
+          if-no-files-found: error
+
+      # COMPILAR PARA APPETIZE.IO
+      - name: Compilar para simulador iOS
+        run: |
+          xcodebuild \
+            -project SpaceInvaders.xcodeproj \
+            -scheme SpaceInvaders \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/SpaceInvadersSimulator" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Preparar ZIP para Appetize
+        run: |
+          APP_PATH="$RUNNER_TEMP/SpaceInvadersSimulator/Build/Products/Release-iphonesimulator/SpaceInvaders.app"
+
+          test -d "$APP_PATH"
+
+          cd "$(dirname "$APP_PATH")"
+
+          zip -r "$RUNNER_TEMP/SpaceInvaders-Appetize.zip" SpaceInvaders.app
+
+      - name: Publicar aplicación para Appetize
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpaceInvaders-Appetize
+          path: ${{ runner.temp }}/SpaceInvaders-Appetize.zip
           if-no-files-found: error
