@@ -14,7 +14,7 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Text("SPACE INVADERS")
+            Text("Mia 23130050")
                 .font(.title2.bold())
 
             Text("Score: \(game.score)")
